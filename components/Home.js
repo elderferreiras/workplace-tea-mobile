@@ -119,7 +119,7 @@ class Home extends Component {
                 <View>
                     <TeaInput tea={this.state.tea} submit={this.teaSubmitHandler} changed={this.teaChangeHandler}/>
                 </View>
-                <View>
+                <View style={styles.posts}>
                     {teas}
                 </View>
             </View>
@@ -151,7 +151,10 @@ const mapDispatchToProps = dispatch => {
 
 const styles = StyleSheet.create({
     screen: {
-        padding: 50
+        padding: 80
+    },
+    posts: {
+        paddingTop: 10
     }
 });
 
