@@ -17,9 +17,9 @@ class TeaItem extends Component {
 const styles = StyleSheet.create({
     post: {
         borderBottomWidth: 1,
-        borderBottomColor: '#9c9c9c',
-        paddingTop: 10,
-        paddingBottom: 10
+        borderBottomColor: 'grey',
+        paddingHorizontal: 10,
+        paddingVertical: 10
     }
 });
 

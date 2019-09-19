@@ -44,7 +44,7 @@ export const fetchTeas = (init) => {
             dispatch(fetchMoreTeas());
         }
 
-        let variables = {id: getWorkplaceId(), sortDirection: 'DESC', limit: 10};
+        let variables = {id: getWorkplaceId(), sortDirection: 'DESC', limit: 20};
 
         if (getState().teasReducer.next) {
             variables.nextToken = getState().teasReducer.next;
