@@ -11,12 +11,9 @@ import {
 } from 'react-native';
 import * as actions from '../store/actions';
 import {connect} from 'react-redux';
-import axios from 'axios';
-import {validate} from "../utility/utility";
-import Teas from '../components/Teas';
-import TeaInput from '../components/TeaInput';
-import {Ionicons} from '@expo/vector-icons';
 import TeaItem from "../components/TeaItem";
+import Colors from "../constants/Colors";
+import Loading from "../shared/Loading";
 
 class TeaFeedScreen extends Component {
     componentDidMount() {
@@ -28,7 +25,7 @@ class TeaFeedScreen extends Component {
     }
 
     render() {
-        let teas = <Text>Loading...</Text>;
+        let teas = <Loading/>;
 
         if (this.props.teas && !this.props.starting) {
             teas = <FlatList data={this.props.teas}
@@ -47,7 +44,7 @@ class TeaFeedScreen extends Component {
         return (
             <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
                 <View style={styles.screen} animationType="slide">
-                    <View style={styles.posts}>
+                    <View style={styles.teaContainer}>
                         {teas}
                     </View>
                 </View>
@@ -81,9 +78,9 @@ const mapDispatchToProps = dispatch => {
 const styles = StyleSheet.create({
     screen: {
         flex: 1,
-        backgroundColor: '#fafafa'
+        backgroundColor: Colors.accent
     },
-    posts: {
+    teaContainer: {
         width: '100%',
         paddingTop: 10
     }

@@ -1,15 +1,11 @@
-import React, { createRef } from 'react';
+import React from 'react';
 import {View, TextInput, StyleSheet, Text} from 'react-native';
 
 const teaForm = (props) => {
-    const ref = createRef();
-
-    ref.focus();
 
     return (
         <View style={styles.inputContainer}>
             <TextInput
-                ref={ref}
                 placeholder="What's the tea?"
                 style={styles.input}
                 onChangeText={props.changed}

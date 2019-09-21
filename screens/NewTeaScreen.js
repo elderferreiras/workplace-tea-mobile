@@ -16,6 +16,8 @@ import axios from "axios";
 import {validate} from "../utility/utility";
 import * as actions from "../store/actions";
 import {connect} from "react-redux";
+import MainButton from '../shared/MainButton';
+import Colors from "../constants/Colors";
 
 const NewTeaScreen = (props) => {
     const [height, setHeight] = useState();
@@ -89,14 +91,8 @@ const NewTeaScreen = (props) => {
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
             <Modal visible={props.visible} animationType="slide">
                 <View style={styles.buttonContainer}>
-                    <View style={styles.button}>
-                        <Button title="Cancel" onPress={props.cancel.bind(this)}/>
-                    </View>
-                    <View style={styles.button}>
-                        <TouchableOpacity onPress={teaSubmitHandler} style={styles.sendButton} underlayColor='#fff'>
-                            <Text style={styles.sendButtonText}>Send</Text>
-                        </TouchableOpacity>
-                    </View>
+                    <MainButton onPress={props.cancel} style={styles.cancelButton} textStyle={styles.cancelButtonText}>Cancel</MainButton>
+                    <MainButton onPress={teaSubmitHandler}>Send</MainButton>
                 </View>
                 <View style={styles.inputContainer}>
                     <TeaInput tea={tea} changed={teaChangeHandler} style={{height: height}}/>
@@ -121,28 +117,24 @@ const styles = StyleSheet.create({
             ios: {
                 paddingHorizontal: 10,
                 paddingTop: 40,
+                paddingBottom: 10
             },
             android: {
                 paddingHorizontal: 10,
                 paddingTop: 10,
+                paddingBottom: 10
             },
         }),
         flexDirection: 'row',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        borderBottomWidth: 1,
+        borderBottomColor: Colors.grey
     },
-    sendButton: {
-        paddingVertical: 10,
-        paddingHorizontal: 8,
-        color: '#fff',
-        backgroundColor: '#0085a1',
-        borderRadius: 10,
-        borderWidth: 1,
-        borderColor: '#0085a1'
+    cancelButton: {
+        backgroundColor: '#dedfe2'
     },
-    sendButtonText: {
-        fontSize: 14,
-        color: '#fff',
-        textAlign: 'center'
+    cancelButtonText: {
+        color: '#89898a'
     }
 });
 

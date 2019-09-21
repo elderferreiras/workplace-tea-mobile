@@ -10,8 +10,8 @@ import amplify from './aws-exports';
 import Header from "./components/Header";
 import NewTeaButton from "./components/NewTeaButton";
 import NewTeaScreen from "./screens/NewTeaScreen";
-import axios from "axios";
-import {validate} from "./utility/utility";
+import * as Font from 'expo-font';
+import { AppLoading } from "expo";
 
 Amplify.configure(amplify);
 
@@ -25,7 +25,15 @@ const store = createStore(
     applyMiddleware(thunk)
 );
 
+const fetchFonts = () => {
+    return Font.loadAsync({
+        'open-sans': require('./assets/fonts/OpenSans-Regular.ttf'),
+        'open-sans-bold': require('./assets/fonts/OpenSans-Bold.ttf'),
+    })
+};
+
 export default function App() {
+    const [dataLoaded, setDataLoaded] = useState(false);
     const [openModal, setOpenModal] = useState(false);
 
     const cancel = () => {
@@ -36,9 +44,17 @@ export default function App() {
         setOpenModal(true);
     };
 
+    if(!dataLoaded) {
+        return <AppLoading
+            startAsync={fetchFonts}
+            onFinish={() => setDataLoaded(true)}
+            onError={(err) => console.log(err)}
+        />;
+    }
+
     return (
         <Provider store={store}>
-            <Header title="Home"/>
+            <Header title="Workplace Tea"/>
             <TeaFeedScreen/>
             <NewTeaButton open={open}/>
             <NewTeaScreen visible={openModal} cancel={cancel}/>
