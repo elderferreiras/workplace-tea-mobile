@@ -1,31 +1,35 @@
-import React from 'react';
-import {View, TextInput, StyleSheet, Text} from 'react-native';
+import React, { useEffect } from 'react';
+import {View, TextInput, StyleSheet, KeyboardAvoidingView} from 'react-native';
 
 const teaForm = (props) => {
+    useEffect(() => {
+        props.inputRef.current.focus();
+    }, [props.inputRef]);
 
     return (
-        <View style={styles.inputContainer}>
-            <TextInput
-                placeholder="What's the tea?"
-                style={styles.input}
-                onChangeText={props.changed}
-                multiline={true}
-                value={props.tea.content}/>
-        </View>
+        <KeyboardAvoidingView>
+            <View style={styles.inputContainer}>
+                <TextInput
+                    placeholder="What's the tea?"
+                    onChangeText={props.changed}
+                    multiline={true}
+                    style={styles.input}
+                    value={props.tea.content}
+                    ref={props.inputRef}
+                />
+            </View>
+        </KeyboardAvoidingView>
     );
 };
 
 const styles = StyleSheet.create({
     inputContainer: {
-        alignItems: 'center',
+        alignItems: 'flex-start',
         width: '100%',
     },
     input: {
-        height: '100%',
-        borderBottomColor: 'grey',
-        borderBottomWidth: 2,
-        marginVertical: 10,
-        width: '100%'
+        padding: 20,
+        fontSize: 18
     }
 });
 

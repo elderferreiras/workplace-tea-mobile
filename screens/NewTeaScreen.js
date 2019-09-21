@@ -91,24 +91,17 @@ const NewTeaScreen = (props) => {
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
             <Modal visible={props.visible} animationType="slide">
                 <View style={styles.buttonContainer}>
-                    <MainButton onPress={props.cancel} style={styles.cancelButton} textStyle={styles.cancelButtonText}>Cancel</MainButton>
+                    <MainButton onPress={props.cancel} style={styles.cancelButton}
+                                textStyle={styles.cancelButtonText}>Cancel</MainButton>
                     <MainButton onPress={teaSubmitHandler}>Send</MainButton>
                 </View>
-                <View style={styles.inputContainer}>
-                    <TeaInput tea={tea} changed={teaChangeHandler} style={{height: height}}/>
-                </View>
+                <TeaInput tea={tea} changed={teaChangeHandler} inputRef={props.inputRef}/>
             </Modal>
         </TouchableWithoutFeedback>
     );
 };
 
 const styles = StyleSheet.create({
-    inputContainer: {
-        flex: 1,
-        justifyContent: 'flex-start',
-        alignItems: 'stretch',
-        paddingHorizontal: 20
-    },
     input: {
         flexDirection: 'row'
     },

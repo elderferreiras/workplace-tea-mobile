@@ -1,10 +1,7 @@
-import React, {Component} from 'react';
+import React, {useEffect} from 'react';
 import {
     StyleSheet,
-    Text,
     View,
-    Button,
-    TextInput,
     FlatList,
     TouchableWithoutFeedback,
     Keyboard
@@ -15,43 +12,41 @@ import TeaItem from "../components/TeaItem";
 import Colors from "../constants/Colors";
 import Loading from "../shared/Loading";
 
-class TeaFeedScreen extends Component {
-    componentDidMount() {
-        this.props.isIPBlocked();
+const TeaFeedScreen = (props) => {
+    useEffect(() => {
+        props.isIPBlocked();
 
-        if (!this.props.hasEverything && !this.props.next) {
-            this.props.fetchTeas();
+        if (!props.hasEverything && !props.next) {
+            props.fetchTeas();
         }
+    }, []);
+
+    let teas = <Loading/>;
+
+    if (props.teas && !props.starting) {
+        teas = <FlatList data={props.teas}
+                         keyExtractor={(tea, index) => tea.id}
+                         renderItem={tea => <TeaItem
+                             id={tea.item.id}
+                             key={tea.item.id}
+                             content={tea.item.content}
+                             createdAt={tea.item.createdAt}
+                             up={tea.item.up}
+                             down={tea.item.down}
+                             comments={tea.item.comments.items}
+                         />}/>
     }
 
-    render() {
-        let teas = <Loading/>;
-
-        if (this.props.teas && !this.props.starting) {
-            teas = <FlatList data={this.props.teas}
-                             keyExtractor={(tea, index) => tea.id}
-                             renderItem={tea => <TeaItem
-                                 id={tea.item.id}
-                                 key={tea.item.id}
-                                 content={tea.item.content}
-                                 createdAt={tea.item.createdAt}
-                                 up={tea.item.up}
-                                 down={tea.item.down}
-                                 comments={tea.item.comments.items}
-                             />}/>
-        }
-
-        return (
-            <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-                <View style={styles.screen} animationType="slide">
-                    <View style={styles.teaContainer}>
-                        {teas}
-                    </View>
+    return (
+        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+            <View style={styles.screen} animationType="slide">
+                <View style={styles.teaContainer}>
+                    {teas}
                 </View>
-            </TouchableWithoutFeedback>
-        );
-    }
-}
+            </View>
+        </TouchableWithoutFeedback>
+    );
+};
 
 const mapStateToProps = state => {
     return {
