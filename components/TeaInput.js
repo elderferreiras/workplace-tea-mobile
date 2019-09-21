@@ -1,5 +1,6 @@
 import React, {useEffect} from 'react';
-import {View, TextInput, StyleSheet, KeyboardAvoidingView, Platform} from 'react-native';
+import {View, TextInput, StyleSheet, KeyboardAvoidingView, Platform, Modal} from 'react-native';
+import NewTeaControls from "./NewTeaControls";
 
 const teaForm = (props) => {
     return (
@@ -15,13 +16,15 @@ const teaForm = (props) => {
                     maxLength={250}
                 />
             </View>
+
+            <NewTeaControls tea={props.tea}/>
         </KeyboardAvoidingView>
     );
 };
 
 const styles = StyleSheet.create({
     inputContainer: {
-        alignItems: 'flex-start'
+        justifyContent: 'flex-start'
     },
     input: {
         ...Platform.select({

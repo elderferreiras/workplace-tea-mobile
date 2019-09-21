@@ -23,18 +23,11 @@ const NewTeaControls = (props) => {
 
 const styles = StyleSheet.create({
     controls: {
-        flex: 1,
-        alignItems: 'flex-end',
         justifyContent: 'flex-end'
     },
     countContainer: {
-        width: '100%',
-        height: 50,
-        backgroundColor: Colors.accent,
+        flexDirection: 'row',
         justifyContent: 'flex-end',
-        alignItems: 'flex-end',
-        position: 'absolute',
-        bottom: 0,
         paddingHorizontal: 20,
         paddingVertical: 15
     },

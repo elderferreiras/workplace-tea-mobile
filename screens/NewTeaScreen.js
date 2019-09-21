@@ -85,7 +85,6 @@ const NewTeaScreen = (props) => {
             <Modal visible={props.visible} animationType="slide">
                 <NewTeaButtons submit={teaSubmitHandler} cancel={props.cancel}/>
                 <TeaInput tea={tea} changed={teaChangeHandler}/>
-                <NewTeaControls tea={tea}/>
             </Modal>
         </TouchableWithoutFeedback>
     );
