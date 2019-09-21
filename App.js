@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, {useState} from 'react';
 import {Provider} from 'react-redux';
 import {createStore, applyMiddleware, combineReducers} from 'redux';
 import thunk from 'redux-thunk';
@@ -36,11 +36,8 @@ export default function App() {
     const [dataLoaded, setDataLoaded] = useState(false);
     const [openModal, setOpenModal] = useState(false);
 
-    const textInputRef = useRef(null);
-
     const cancel = () => {
         setOpenModal(false);
-        textInputRef.current.blur();
     };
 
     const open = () => {
@@ -60,7 +57,7 @@ export default function App() {
             <Header title="Workplace Tea"/>
             <TeaFeedScreen/>
             <NewTeaButton open={open}/>
-            <NewTeaScreen visible={openModal} cancel={cancel} inputRef={textInputRef}/>
+            <NewTeaScreen visible={openModal} cancel={cancel}/>
         </Provider>
     );
 }

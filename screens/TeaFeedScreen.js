@@ -38,13 +38,11 @@ const TeaFeedScreen = (props) => {
     }
 
     return (
-        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-            <View style={styles.screen} animationType="slide">
-                <View style={styles.teaContainer}>
-                    {teas}
-                </View>
+        <View style={styles.screen} animationType="slide">
+            <View style={styles.teaContainer}>
+                {teas}
             </View>
-        </TouchableWithoutFeedback>
+        </View>
     );
 };
 
@@ -72,11 +70,9 @@ const mapDispatchToProps = dispatch => {
 
 const styles = StyleSheet.create({
     screen: {
-        flex: 1,
         backgroundColor: Colors.accent
     },
     teaContainer: {
-        width: '100%',
         paddingTop: 10
     }
 });

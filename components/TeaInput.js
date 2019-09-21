@@ -1,21 +1,18 @@
-import React, { useEffect } from 'react';
-import {View, TextInput, StyleSheet, KeyboardAvoidingView} from 'react-native';
+import React, {useEffect} from 'react';
+import {View, TextInput, StyleSheet, KeyboardAvoidingView, Platform} from 'react-native';
 
 const teaForm = (props) => {
-    useEffect(() => {
-        props.inputRef.current.focus();
-    }, [props.inputRef]);
-
     return (
         <KeyboardAvoidingView>
             <View style={styles.inputContainer}>
                 <TextInput
+                    autoFocus={true}
                     placeholder="What's the tea?"
                     onChangeText={props.changed}
                     multiline={true}
                     style={styles.input}
                     value={props.tea.content}
-                    ref={props.inputRef}
+                    maxLength={250}
                 />
             </View>
         </KeyboardAvoidingView>
@@ -24,11 +21,18 @@ const teaForm = (props) => {
 
 const styles = StyleSheet.create({
     inputContainer: {
-        alignItems: 'flex-start',
-        width: '100%',
+        alignItems: 'flex-start'
     },
     input: {
-        padding: 20,
+        ...Platform.select({
+            ios: {
+                marginTop: 10,
+                padding: 20
+            },
+            android: {
+                padding: 20
+            }
+        }),
         fontSize: 18
     }
 });
