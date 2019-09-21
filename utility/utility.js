@@ -1,3 +1,6 @@
+import Colors from "../constants/Colors";
+import {AsyncStorage} from "react-native";
+
 const filter = () => {
     let Filter = require('bad-words'),
         filter = new Filter();
@@ -69,15 +72,6 @@ export const updateObject = (oldObject, updatedProperties = {}) => {
     };
 };
 
-const hasVoted = (id, dir) => {
-    const vote = localStorage.getItem(`CognitoIdentityServiceProvider#${id}`);
-    if (vote) {
-        return vote === dir;
-    } else {
-        return false;
-    }
-};
-
-export const checkVote = (id, dir) => {
-    return hasVoted(id, dir)? ' selected' : ''
+export const checkVote = (id) => {
+    return AsyncStorage.getItem(`CognitoIdentityServiceProvider#${id}`);
 };

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import {View, Text, StyleSheet, Platform} from 'react-native';
 import Fonts from "../constants/Fonts";
 import Colors from "../constants/Colors";
 
@@ -15,7 +15,14 @@ const styles = StyleSheet.create({
     header: {
         width: '100%',
         height: 70,
-        paddingTop: 20,
+        ...Platform.select({
+            ios: {
+                paddingTop: 30
+            },
+            android: {
+                paddingTop: 20
+            }
+        }),
         alignItems: 'center',
         justifyContent: 'center',
         borderBottomWidth: 1,

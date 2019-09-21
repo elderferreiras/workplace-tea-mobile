@@ -6,11 +6,14 @@ import * as mutations from "../../graphql/mutations";
 import axios from "axios";
 import * as voting from './voting';
 import {postTweet} from "../../services/twitter";
-const uuidv4 = require('uuid/v4');
 
-export const fetchTeasStart = () => {
+const uuidv4 = require('uuid/v4');
+import {AsyncStorage} from 'react-native';
+
+export const fetchTeasStart = (init) => {
     return {
-        type: actionTypes.FETCH_TEAS_START
+        type: actionTypes.FETCH_TEAS_START,
+        init: init
     };
 };
 
@@ -39,14 +42,14 @@ export const fetchMoreTeas = () => {
 export const fetchTeas = (init) => {
     return (dispatch, getState) => {
         if (!getState().teasReducer.teas.length) {
-            dispatch(fetchTeasStart());
+            dispatch(fetchTeasStart(init));
         } else {
             dispatch(fetchMoreTeas());
         }
 
-        let variables = {id: getWorkplaceId(), sortDirection: 'DESC', limit: 20};
+        let variables = {id: getWorkplaceId(), sortDirection: 'DESC', limit: 10};
 
-        if (getState().teasReducer.next) {
+        if (getState().teasReducer.next && !init) {
             variables.nextToken = getState().teasReducer.next;
         }
 
@@ -89,7 +92,7 @@ export const submitTea = (content, ip = null) => {
             }
         };
 
-        if(ip) {
+        if (ip) {
             data.input.ip = ip;
         }
 
@@ -144,57 +147,62 @@ export const updateVote = (id, tea) => {
 export const countUpVote = (id, countUp, countDown) => {
     return (dispatch) => {
         const key = `CognitoIdentityServiceProvider#${id}`;
-        const vote = localStorage.getItem(key);
 
-        if (vote === voting.UP) {
-            localStorage.removeItem(key);
-            countUp--;
-        } else if (vote === voting.DOWN) {
-            localStorage.setItem(key, voting.UP);
-            countUp++;
-            countDown--;
-        } else {
-            localStorage.setItem(key, voting.UP);
-            countUp++;
-        }
-
-        API.graphql(graphqlOperation(mutations.updateTea, {
-            input: {
-                id: id,
-                up: countUp < 0 ? 0 : countUp,
-                down: countDown < 0 ? 0 : countDown
+        AsyncStorage.getItem(key).then((vote) => {
+            if (vote === voting.UP) {
+                AsyncStorage.removeItem(key, () => {
+                    countUp--;
+                    persistVote(countUp, countDown, id, dispatch);
+                });
+            } else if (vote === voting.DOWN) {
+                AsyncStorage.setItem(key, voting.UP, () => {
+                    countUp++;
+                    countDown--;
+                    persistVote(countUp, countDown, id, dispatch);
+                });
+            } else {
+                AsyncStorage.setItem(key, voting.UP, () => {
+                    countUp++;
+                    persistVote(countUp, countDown, id, dispatch);
+                });
             }
-        })).then(res => {
-            dispatch(updateVote(id, res.data.updateTea));
         });
     };
+};
+
+const persistVote = (countUp, countDown, id, dispatch) => {
+    API.graphql(graphqlOperation(mutations.updateTea, {
+        input: {
+            id: id,
+            up: countUp < 0 ? 0 : countUp,
+            down: countDown < 0 ? 0 : countDown
+        }
+    })).then(res => {
+        dispatch(updateVote(id, res.data.updateTea));
+    });
 };
 
 export const countDownVote = (id, countUp, countDown) => {
     return (dispatch) => {
         const key = `CognitoIdentityServiceProvider#${id}`;
-        const vote = localStorage.getItem(key);
-
-        if (vote === voting.DOWN) {
-            localStorage.removeItem(key);
-            countDown--;
-        } else if (vote === voting.UP) {
-            localStorage.setItem(key, voting.DOWN);
-            countUp--;
-            countDown++;
-        } else {
-            localStorage.setItem(key, voting.DOWN);
-            countDown++;
-        }
-
-        API.graphql(graphqlOperation(mutations.updateTea, {
-            input: {
-                id: id,
-                up: countUp < 0 ? 0 : countUp,
-                down: countDown < 0 ? 0 : countDown
+        AsyncStorage.getItem(key).then((vote) => {
+            if (vote === voting.DOWN) {
+                AsyncStorage.removeItem(key, () => {
+                    countDown--;
+                    persistVote(countUp, countDown, id, dispatch);
+                });
+            } else if (vote === voting.UP) {
+                AsyncStorage.setItem(key, voting.DOWN, () => {
+                    countUp--;
+                    countDown++;
+                    persistVote(countUp, countDown, id, dispatch);
+                });
+            } else {
+                AsyncStorage.setItem(key, voting.DOWN, () => {
+                    countDown++;
+                    persistVote(countUp, countDown, id, dispatch);
+                });
             }
-        })).then(res => {
-            dispatch(updateVote(id, res.data.updateTea));
         });
     };
 };

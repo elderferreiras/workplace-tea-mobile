@@ -9,13 +9,14 @@ const initialState = {
     hasEverything: false,
     previous: null,
     blocked: false,
-    next: null
+    next: null,
+    refreshing: false
 };
 
 const teasReducer = (state = initialState, action)  => {
     switch (action.type) {
         case actionTypes.FETCH_TEAS_START:
-            return fetchTeasStart(state);
+            return fetchTeasStart(state, action);
         case actionTypes.FETCH_TEAS_SUCCESS:
            return fetchTeasSuccess(state, action);
         case actionTypes.FETCH_TEAS_FAIL:
@@ -39,10 +40,16 @@ const teasReducer = (state = initialState, action)  => {
     }
 };
 
-const fetchTeasStart = (state) => {
+const fetchTeasStart = (state, action) => {
+    let refreshing = false;
+
+    if(action.init) {
+        refreshing = true;
+    }
     return updateObject(state, {
         error: null,
-        starting: true
+        starting: true,
+        refreshing: refreshing
     });
 };
 
@@ -64,6 +71,7 @@ const fetchTeasSuccess = (state, action) => {
         error: null,
         starting: false,
         loading: false,
+        refreshing: false,
         hasEverything: hasEverything
     });
 };
@@ -71,14 +79,16 @@ const fetchTeasSuccess = (state, action) => {
 const fetchTeasFail = (state, action) => {
     return updateObject(state,{
         error: action.error,
-        starting: false
+        starting: false,
+        refreshing: false
     });
 };
 
 
 const fetchMoreTeas = (state) => {
     return updateObject(state,{
-        loading: true
+        loading: true,
+        refreshing: false
     });
 };
 

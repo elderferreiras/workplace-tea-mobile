@@ -1,30 +1,65 @@
-import React, {Component} from 'react';
+import React, {Fragment} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import Colors from "../constants/Colors";
 import Fonts from "../constants/Fonts";
 import Voting from "./Voting";
+import { FontAwesome } from "@expo/vector-icons";
+import {getDate} from "../helpers/utils";
 
 const TeaItem = (props) => {
+    let comments = null;
+    let timestamp = null;
+    let footer = null;
+
+    const containerStyle = [styles.teaContainer];
+    const teaStyle = [styles.tea];
+
+    if (props.comments) {
+        comments = (
+            <Fragment>
+                <Voting up={props.up ? props.up : 0} id={props.id}
+                        down={props.down ? props.down : 0}/>
+                <View style={styles.commentsContainer}>
+                    <Text>{props.comments.length} {props.comments.length === 1 ? ' Comment' : ' Comments'}</Text>
+                </View>
+            </Fragment>);
+    }
+
+    if (props.createdAt) {
+        timestamp = <Text style={styles.timestamp}>Posted on {getDate(props.createdAt)}</Text>;
+    }
+
+    if (props.footer) {
+        footer = (
+            <View style={styles.footerContainer}>
+                <Text style={styles.footer}>{props.footer}</Text>
+                <FontAwesome style={styles.footerIcon} name="coffee" size={16} color="black" />
+            </View>
+        );
+
+        teaStyle.push({textAlign: 'center'});
+    } else {
+        containerStyle.push({
+            backgroundColor: Colors.white
+        });
+    }
+
     return (
-        <View style={styles.teaContainer}>
-            <Text style={styles.timestamp}>Posted on September 19, 2019</Text>
-            <Text style={styles.tea}>
+        <View style={containerStyle}>
+            {timestamp}
+            <Text style={teaStyle}>
                 {props.content}
             </Text>
             <View style={styles.controlsContainer}>
-                <Voting up={props.up ? props.up : 0}
-                        down={props.down ? props.down : 0}/>
-                <View style={styles.commentsContainer}>
-                    <Text>{props.comments.length} {props.comments.length === 1? ' Comment' : ' Comments'}</Text>
-                </View>
+                {comments}
             </View>
+            {footer}
         </View>
     );
 };
 
 const styles = StyleSheet.create({
     teaContainer: {
-        backgroundColor: Colors.white,
         marginHorizontal: 10,
         marginVertical: 5,
         paddingVertical: 5,
@@ -48,6 +83,19 @@ const styles = StyleSheet.create({
     commentsContainer: {
         width: '50%',
         alignItems: 'flex-end'
+    },
+    footerContainer: {
+        flexDirection: 'row',
+        paddingVertical: 20,
+        marginBottom: 20,
+        justifyContent: 'center'
+    },
+    footer: {
+        fontSize: 18,
+        fontFamily: Fonts.bold
+    },
+    footerIcon: {
+        paddingLeft: 5
     }
 });
 

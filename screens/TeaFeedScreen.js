@@ -2,15 +2,14 @@ import React, {useEffect} from 'react';
 import {
     StyleSheet,
     View,
-    FlatList,
-    TouchableWithoutFeedback,
-    Keyboard
+    FlatList
 } from 'react-native';
 import * as actions from '../store/actions';
 import {connect} from 'react-redux';
 import TeaItem from "../components/TeaItem";
 import Colors from "../constants/Colors";
 import Loading from "../shared/Loading";
+import LoadingOldTeas from "../components/LoadingOldTeas";
 
 const TeaFeedScreen = (props) => {
     useEffect(() => {
@@ -23,6 +22,31 @@ const TeaFeedScreen = (props) => {
 
     let teas = <Loading/>;
 
+
+    const fetchMore = () => {
+        if (props.loading || props.starting || props.next === null) return;
+
+        if (props.next !== props.previous) {
+            props.fetchTeas();
+        }
+    };
+
+    const loadingTeas = () => {
+        if(props.loading) {
+            return <LoadingOldTeas/>
+        } else if(props.hasEverything) {
+            return <TeaItem
+                content="Wow that was a lot of tea, but we're running out of it. Have any tea to spill? Just do it."
+                footer={"Workplace Tea"}/>
+        } else {
+            return null;
+        }
+    };
+
+    const refreshTeas = () => {
+        props.fetchTeas(true);
+    };
+
     if (props.teas && !props.starting) {
         teas = <FlatList data={props.teas}
                          keyExtractor={(tea, index) => tea.id}
@@ -33,8 +57,14 @@ const TeaFeedScreen = (props) => {
                              createdAt={tea.item.createdAt}
                              up={tea.item.up}
                              down={tea.item.down}
-                             comments={tea.item.comments.items}
-                         />}/>
+                             comments={tea.item.comments? tea.item.comments.items : null}/>
+                         }
+                         onEndReachedThreshold={0.5}
+                         initialNumToRender={10}
+                         onEndReached={fetchMore}
+                         onRefresh={refreshTeas}
+                         refreshing={props.loading}
+                         ListFooterComponent={loadingTeas}/>
     }
 
     return (
@@ -70,7 +100,8 @@ const mapDispatchToProps = dispatch => {
 
 const styles = StyleSheet.create({
     screen: {
-        backgroundColor: Colors.accent
+        backgroundColor: Colors.accent,
+        marginBottom: 50
     },
     teaContainer: {
         paddingTop: 10

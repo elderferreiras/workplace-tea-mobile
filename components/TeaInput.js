@@ -5,26 +5,30 @@ import NewTeaControls from "./NewTeaControls";
 const teaForm = (props) => {
     return (
         <KeyboardAvoidingView>
-            <View style={styles.inputContainer}>
-                <TextInput
-                    autoFocus={true}
-                    placeholder="What's the tea?"
-                    onChangeText={props.changed}
-                    multiline={true}
-                    style={styles.input}
-                    value={props.tea.content}
-                    maxLength={250}
-                />
-            </View>
+            <View style={styles.content}>
+                <View>
+                    <TextInput
+                        autoFocus={true}
+                        placeholder="What's the tea?"
+                        onChangeText={props.changed}
+                        multiline={true}
+                        style={styles.input}
+                        value={props.tea.content}
+                        maxLength={250}/>
+                </View>
 
-            <NewTeaControls tea={props.tea}/>
+                <View>
+                    <NewTeaControls tea={props.tea}/>
+                </View>
+            </View>
         </KeyboardAvoidingView>
     );
 };
 
 const styles = StyleSheet.create({
-    inputContainer: {
-        justifyContent: 'flex-start'
+    content: {
+        flexDirection: 'column',
+        justifyContent: 'space-between'
     },
     input: {
         ...Platform.select({

@@ -1,7 +1,6 @@
 import React from 'react';
 import {Text, StyleSheet, View} from 'react-native';
 import Fonts from "../constants/Fonts";
-import Colors from "../constants/Colors";
 
 const NewTeaControls = (props) => {
     const textStyles = [styles.counter];
@@ -13,18 +12,13 @@ const NewTeaControls = (props) => {
     }
 
     return (
-        <View style={styles.controls}>
-            <View style={styles.countContainer}>
-                <Text style={textStyles}>{props.tea.content.length}/250</Text>
-            </View>
+        <View style={styles.countContainer}>
+            <Text style={textStyles}>{props.tea.content.length}/250</Text>
         </View>
     );
 };
 
 const styles = StyleSheet.create({
-    controls: {
-        justifyContent: 'flex-end'
-    },
     countContainer: {
         flexDirection: 'row',
         justifyContent: 'flex-end',
