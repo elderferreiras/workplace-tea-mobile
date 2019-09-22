@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "workplace-tea-mobile",
-    "slug": "workplace-tea-mobile",
+    "name": "Workplace Tea",
+    "slug": "workplace-tea",
     "privacy": "public",
     "sdkVersion": "34.0.0",
     "platforms": [
@@ -24,7 +24,11 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "workplacetea.com"
+    },
+    "android": {
+      "package": "workplacetea.com"
     }
   }
 }
