@@ -10,6 +10,7 @@ const NewTeaButton = (props) => {
                 name="new-message"
                 backgroundColor={Colors.primary}
                 size={36}
+                color={Colors.secondary}
                 iconStyle={styles.iconStyle}
                 style={styles.floatingButton}
                 onPress={props.open.bind(this)}/>

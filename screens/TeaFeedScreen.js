@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState, Fragment} from 'react';
 import {
     StyleSheet,
     View,
@@ -10,8 +10,21 @@ import TeaItem from "../components/TeaItem";
 import Colors from "../constants/Colors";
 import Loading from "../shared/Loading";
 import LoadingOldTeas from "../components/LoadingOldTeas";
+import Fonts from "../constants/Fonts";
+import NewTeaButton from "../components/NewTeaButton";
+import NewTeaScreen from "./NewTeaScreen";
 
 const TeaFeedScreen = (props) => {
+    const [openModal, setOpenModal] = useState(false);
+
+    const cancel = () => {
+        setOpenModal(false);
+    };
+
+    const open = () => {
+        setOpenModal(true);
+    };
+
     useEffect(() => {
         props.isIPBlocked();
 
@@ -32,9 +45,9 @@ const TeaFeedScreen = (props) => {
     };
 
     const loadingTeas = () => {
-        if(props.loading) {
+        if (props.loading) {
             return <LoadingOldTeas/>
-        } else if(props.hasEverything) {
+        } else if (props.hasEverything) {
             return <TeaItem
                 content="Wow that was a lot of tea, but we're running out of it. Have any tea to spill? Just do it."
                 footer={"Workplace Tea"}/>
@@ -57,7 +70,8 @@ const TeaFeedScreen = (props) => {
                              createdAt={tea.item.createdAt}
                              up={tea.item.up}
                              down={tea.item.down}
-                             comments={tea.item.comments? tea.item.comments.items : null}/>
+                             navigation={props.navigation}
+                             comments={tea.item.comments ? tea.item.comments.items : null}/>
                          }
                          onEndReachedThreshold={0.5}
                          initialNumToRender={10}
@@ -68,12 +82,25 @@ const TeaFeedScreen = (props) => {
     }
 
     return (
-        <View style={styles.screen} animationType="slide">
-            <View style={styles.teaContainer}>
-                {teas}
+        <Fragment>
+            <View style={styles.screen} animationType="slide">
+                <View style={styles.teaContainer}>
+                    {teas}
+                </View>
             </View>
-        </View>
+            <NewTeaButton open={open}/>
+            <NewTeaScreen visible={openModal} cancel={cancel}/>
+        </Fragment>
     );
+};
+
+TeaFeedScreen.navigationOptions = {
+    headerTitle: 'Workplace Tea',
+    headerTitleStyle: {
+        fontFamily: Fonts.bold,
+        color: Colors.secondary,
+        textAlign: 'center'
+    }
 };
 
 const mapStateToProps = state => {
@@ -100,8 +127,7 @@ const mapDispatchToProps = dispatch => {
 
 const styles = StyleSheet.create({
     screen: {
-        backgroundColor: Colors.accent,
-        marginBottom: 50
+        backgroundColor: Colors.accent
     },
     teaContainer: {
         paddingTop: 10

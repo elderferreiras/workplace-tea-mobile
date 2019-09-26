@@ -22,8 +22,8 @@ const styles = StyleSheet.create({
         borderRadius: 5
     },
     buttonText: {
-        color: 'white',
-        fontFamily: 'open-sans',
+        color: Colors.secondary,
+        fontFamily: 'open-sans-bold',
         fontSize: 18
     }
 });

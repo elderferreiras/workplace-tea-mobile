@@ -3,7 +3,7 @@ import {StyleSheet, Text, View} from 'react-native';
 import Colors from "../constants/Colors";
 import Fonts from "../constants/Fonts";
 import Voting from "./Voting";
-import { FontAwesome } from "@expo/vector-icons";
+import {FontAwesome} from "@expo/vector-icons";
 import {getDate} from "../helpers/utils";
 
 const TeaItem = (props) => {
@@ -14,13 +14,22 @@ const TeaItem = (props) => {
     const containerStyle = [styles.teaContainer];
     const teaStyle = [styles.tea];
 
+    const selectTeaHandler = (id) => {
+        props.navigation.navigate({
+            routeName: 'Tea', params: {
+                id: id
+            }
+        });
+    };
+
     if (props.comments) {
         comments = (
             <Fragment>
                 <Voting up={props.up ? props.up : 0} id={props.id}
                         down={props.down ? props.down : 0}/>
                 <View style={styles.commentsContainer}>
-                    <Text>{props.comments.length} {props.comments.length === 1 ? ' Comment' : ' Comments'}</Text>
+                    <Text
+                        onPress={() => selectTeaHandler(props.id)}>{props.comments.length} {props.comments.length === 1 ? ' Comment' : ' Comments'}</Text>
                 </View>
             </Fragment>);
     }
@@ -33,7 +42,7 @@ const TeaItem = (props) => {
         footer = (
             <View style={styles.footerContainer}>
                 <Text style={styles.footer}>{props.footer}</Text>
-                <FontAwesome style={styles.footerIcon} name="coffee" size={16} color="black" />
+                <FontAwesome style={styles.footerIcon} name="coffee" size={16} color="black"/>
             </View>
         );
 

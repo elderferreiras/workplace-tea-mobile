@@ -10,7 +10,6 @@ import axios from "axios";
 import {validate} from "../utility/utility";
 import * as actions from "../store/actions";
 import {connect} from "react-redux";
-import NewTeaControls from "../components/NewTeaControls";
 import NewTeaButtons from "../components/NewTeaButtons";
 
 const NewTeaScreen = (props) => {

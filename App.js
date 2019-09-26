@@ -12,6 +12,7 @@ import NewTeaButton from "./components/NewTeaButton";
 import NewTeaScreen from "./screens/NewTeaScreen";
 import * as Font from 'expo-font';
 import { AppLoading } from "expo";
+import Navigator from "./navigation/navigator";
 
 Amplify.configure(amplify);
 
@@ -34,15 +35,6 @@ const fetchFonts = () => {
 
 export default function App() {
     const [dataLoaded, setDataLoaded] = useState(false);
-    const [openModal, setOpenModal] = useState(false);
-
-    const cancel = () => {
-        setOpenModal(false);
-    };
-
-    const open = () => {
-        setOpenModal(true);
-    };
 
     if(!dataLoaded) {
         return <AppLoading
@@ -54,10 +46,7 @@ export default function App() {
 
     return (
         <Provider store={store}>
-            <Header title="Workplace Tea"/>
-            <TeaFeedScreen/>
-            <NewTeaButton open={open}/>
-            <NewTeaScreen visible={openModal} cancel={cancel}/>
+            <Navigator/>
         </Provider>
     );
 }
