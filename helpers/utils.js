@@ -1,4 +1,6 @@
-import { Platform } from 'react-native';
+import React from 'react';
+import { Image } from "react-native";
+import DefaultText from "../components/DefaultText";
 
 export const getDate = (date, short) => {
     const objDate = new Date(date);
@@ -6,6 +8,31 @@ export const getDate = (date, short) => {
     const month = getMonth(objDate.getMonth() + 1);
     const year = objDate.getFullYear();
     return `${month} ${day}, ${year}`
+};
+
+export const getContent = (content) => {
+    if(/<[a-z][\s\S]*>/i.test(content)) {
+        const res = getGIF(content);
+
+        if(res) {
+            return <Image source={{uri: res}} style={{height: 200}}/>;
+        }
+    } else {
+        return <DefaultText>{content}</DefaultText>;
+    }
+
+    return '';
+};
+
+export const getGIF = (str) => {
+    const regex = /<img.*?src=['"](.*)['"] .*\/>/;
+    const result = regex.exec(str);
+
+    if(result.hasOwnProperty(1)) {
+        return result[1];
+    }
+
+    return false;
 };
 
 export const getMonth = (month) => {
@@ -34,5 +61,5 @@ export const getShortDate = (date, short) => {
 };
 
 export const getWorkplaceId = () => {
-    return '1da8f310-c096-4558-88d5-7c6f21344a00'; //'e6f9c2dc-a191-44f2-8d33-5792d16224e7'; //e6f9c2dc-a191-44f2-8d33-5792d16224e7
+    return '1da8f310-c096-4558-88d5-7c6f21344a00'; //'e6f9c2dc-a191-44f2-8d33-5792d16224e7'; //1da8f310-c096-4558-88d5-7c6f21344a00
 };

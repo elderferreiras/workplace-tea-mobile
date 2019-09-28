@@ -3,7 +3,7 @@ import {
     Modal,
     TouchableWithoutFeedback,
     Keyboard,
-    View
+    View, Alert
 } from "react-native";
 import TeaInput from "../components/TeaInput";
 import axios from "axios";
@@ -21,9 +21,9 @@ const NewTeaScreen = (props) => {
     );
 
     const teaSubmitHandler = () => {
-        props.cancel();
-
         if (tea.content.length) {
+            props.cancel();
+
             if (isTeaValid()) {
                 axios.get('https://api.ipify.org/?format=json').then(res => {
                     if (res.data.ip.length) {
@@ -39,6 +39,12 @@ const NewTeaScreen = (props) => {
             } else {
                 loadFakeTea();
             }
+        } else {
+            Alert.alert(
+                "Where's the tea?",
+                'Silence speaks volumes, but not here. Don\'t leave us thirsty. Type something.',
+                [{text: 'Dismiss', style: 'cancel'}]
+            );
         }
     };
 

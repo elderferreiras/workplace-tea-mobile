@@ -11,7 +11,7 @@ import Colors from "../constants/Colors";
 import Loading from "../shared/Loading";
 import LoadingOldTeas from "../components/LoadingOldTeas";
 import Fonts from "../constants/Fonts";
-import NewTeaButton from "../components/NewTeaButton";
+import FloatingButton from "../components/FloatingButton";
 import NewTeaScreen from "./NewTeaScreen";
 
 const TeaFeedScreen = (props) => {
@@ -88,7 +88,7 @@ const TeaFeedScreen = (props) => {
                     {teas}
                 </View>
             </View>
-            <NewTeaButton open={open}/>
+            <FloatingButton open={open} icon="message-draw"/>
             <NewTeaScreen visible={openModal} cancel={cancel}/>
         </Fragment>
     );

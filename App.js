@@ -8,7 +8,7 @@ import TeaFeedScreen from "./screens/TeaFeedScreen";
 import Amplify from 'aws-amplify';
 import amplify from './aws-exports';
 import Header from "./components/Header";
-import NewTeaButton from "./components/NewTeaButton";
+import FloatingButton from "./components/FloatingButton";
 import NewTeaScreen from "./screens/NewTeaScreen";
 import * as Font from 'expo-font';
 import { AppLoading } from "expo";

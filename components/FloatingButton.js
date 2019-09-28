@@ -1,13 +1,13 @@
 import React from 'react';
-import {Entypo} from "@expo/vector-icons";
+import {MaterialCommunityIcons} from "@expo/vector-icons";
 import {View,StyleSheet} from "react-native";
 import Colors from "../constants/Colors";
 
-const NewTeaButton = (props) => {
+const FloatingButton = (props) => {
     return (
         <View style={styles.floatingButtonContainer}>
-            <Entypo.Button
-                name="new-message"
+            <MaterialCommunityIcons.Button
+                name={props.icon}
                 backgroundColor={Colors.primary}
                 size={36}
                 color={Colors.secondary}
@@ -32,4 +32,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default NewTeaButton;
+export default FloatingButton;
