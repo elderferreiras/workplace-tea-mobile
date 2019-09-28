@@ -177,8 +177,8 @@ TeaScreen.navigationOptions = {
     headerRight: (
         <HeaderButtons HeaderButtonComponent={HeaderButton}>
             <Item
-                title="Favorite"
-                iconName="ios-flag"
+                title="Flag content"
+                iconName="flag"
                 onPress={() => {
                     console.log('Mark as favorite!');
                 }}

@@ -61,5 +61,5 @@ export const getShortDate = (date, short) => {
 };
 
 export const getWorkplaceId = () => {
-    return '1da8f310-c096-4558-88d5-7c6f21344a00'; //'e6f9c2dc-a191-44f2-8d33-5792d16224e7'; //1da8f310-c096-4558-88d5-7c6f21344a00
+    return 'e6f9c2dc-a191-44f2-8d33-5792d16224e7'; //'e6f9c2dc-a191-44f2-8d33-5792d16224e7'; //1da8f310-c096-4558-88d5-7c6f21344a00
 };

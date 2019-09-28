@@ -2,7 +2,9 @@ import React, {useEffect, useState, Fragment} from 'react';
 import {
     StyleSheet,
     View,
-    FlatList
+    FlatList,
+    Linking,
+    Image
 } from 'react-native';
 import * as actions from '../store/actions';
 import {connect} from 'react-redux';
@@ -13,6 +15,8 @@ import LoadingOldTeas from "../components/LoadingOldTeas";
 import Fonts from "../constants/Fonts";
 import FloatingButton from "../components/FloatingButton";
 import NewTeaScreen from "./NewTeaScreen";
+import {HeaderButtons, Item} from "react-navigation-header-buttons";
+import HeaderButton from '../components/HeaderButton';
 
 const TeaFeedScreen = (props) => {
     const [openModal, setOpenModal] = useState(false);
@@ -77,7 +81,7 @@ const TeaFeedScreen = (props) => {
                          initialNumToRender={10}
                          onEndReached={fetchMore}
                          onRefresh={refreshTeas}
-                         refreshing={props.loading}
+                         refreshing={props.refreshing}
                          ListFooterComponent={loadingTeas}/>
     }
 
@@ -99,8 +103,26 @@ TeaFeedScreen.navigationOptions = {
     headerTitleStyle: {
         fontFamily: Fonts.bold,
         color: Colors.secondary,
-        textAlign: 'center'
-    }
+        alignSelf: 'center',
+        textAlign: "center",
+        justifyContent: 'center',
+        flex: 1
+    },
+    headerTintColor: Colors.secondary,
+    headerLeft: (
+        <Image style={{height: 50, width: 50}} source={require('../assets/icon_white.png')}/>
+    ),
+    headerRight: (
+        <HeaderButtons HeaderButtonComponent={HeaderButton}>
+            <Item
+                title="Information"
+                iconName="information-variant"
+                onPress={() => {
+                    Linking.openURL('https://www.workplacetea.com/privacy-policy')
+                }}
+            />
+        </HeaderButtons>
+    )
 };
 
 const mapStateToProps = state => {
@@ -111,7 +133,8 @@ const mapStateToProps = state => {
         previous: state.teasReducer.previous,
         loading: state.teasReducer.loading,
         hasEverything: state.teasReducer.hasEverything,
-        blocked: state.teasReducer.blocked
+        blocked: state.teasReducer.blocked,
+        refreshing: state.teasReducer.refreshing
     }
 };
 
