@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         color: Colors.secondary,
-        fontFamily: 'open-sans-bold',
+        fontFamily: 'open-sans',
         fontSize: 18
     }
 });

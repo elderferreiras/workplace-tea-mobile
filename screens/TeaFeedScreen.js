@@ -4,7 +4,7 @@ import {
     View,
     FlatList,
     Linking,
-    Image
+    Platform, Alert
 } from 'react-native';
 import * as actions from '../store/actions';
 import {connect} from 'react-redux';
@@ -17,6 +17,7 @@ import FloatingButton from "../components/FloatingButton";
 import NewTeaScreen from "./NewTeaScreen";
 import {HeaderButtons, Item} from "react-navigation-header-buttons";
 import HeaderButton from '../components/HeaderButton';
+import {reportInappropriateContent} from "../store/actions";
 
 const TeaFeedScreen = (props) => {
     const [openModal, setOpenModal] = useState(false);
@@ -102,23 +103,34 @@ TeaFeedScreen.navigationOptions = {
     headerTitle: 'Workplace Tea',
     headerTitleStyle: {
         fontFamily: Fonts.bold,
-        color: Colors.secondary,
+        color: Platform.OS === 'android'? Colors.white : Colors.primary,
         alignSelf: 'center',
         textAlign: "center",
-        justifyContent: 'center',
-        flex: 1
+        justifyContent: 'center'
     },
-    headerTintColor: Colors.secondary,
-    headerLeft: (
-        <Image style={{height: 50, width: 50}} source={require('../assets/icon_white.png')}/>
-    ),
+    headerTintColor: Platform.OS === 'android'? Colors.white : Colors.primary,
     headerRight: (
         <HeaderButtons HeaderButtonComponent={HeaderButton}>
             <Item
                 title="Information"
                 iconName="information-variant"
                 onPress={() => {
-                    Linking.openURL('https://www.workplacetea.com/privacy-policy')
+                    Alert.alert(
+                        'Privacy Policy',
+                        'You\'re about to be taken to the Privacy Policy page.',
+                        [
+                            {
+                                text: 'Cancel',
+                                style: 'cancel'
+                            },
+                            {
+                                text: 'Proceed', onPress: () => {
+                                    Linking.openURL('https://www.workplacetea.com/privacy-policy');
+                                }
+                            },
+                        ],
+                        {cancelable: false},
+                    );
                 }}
             />
         </HeaderButtons>

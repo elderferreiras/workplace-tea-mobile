@@ -5,7 +5,11 @@ import DefaultText from "../components/DefaultText";
 export const getDate = (date, short) => {
     const objDate = new Date(date);
     const day = objDate.getDate();
-    const month = getMonth(objDate.getMonth() + 1);
+    let month = getMonth(objDate.getMonth() + 1);
+
+    if(short) {
+        month = month.slice(0, 3);
+    }
     const year = objDate.getFullYear();
     return `${month} ${day}, ${year}`
 };

@@ -5,9 +5,7 @@ import {
     StyleSheet,
     ActivityIndicator,
     ScrollView,
-    TouchableWithoutFeedback,
-    Keyboard,
-    Alert
+    Alert, Platform
 } from 'react-native';
 import Fonts from "../constants/Fonts";
 import Colors from "../constants/Colors";
@@ -66,6 +64,7 @@ const TeaScreen = (props) => {
                 });
             } else {
                 loadFakeComment();
+                cancel();
             }
 
         } else {
@@ -172,9 +171,9 @@ TeaScreen.navigationOptions = (data) => {
     return {
         headerTitleStyle: {
             fontFamily: Fonts.semiBold,
-            color: Colors.secondary
+            color: Platform.OS === 'android'? Colors.white : Colors.primary
         },
-        headerTintColor: Colors.secondary,
+        headerTintColor: Platform.OS === 'android'? Colors.white : Colors.primary,
         headerRight: (
             <HeaderButtons HeaderButtonComponent={HeaderButton}>
                 <Item
@@ -242,8 +241,8 @@ const styles = StyleSheet.create({
         fontFamily: Fonts.bold
     },
     commentText: {
-        padding: '20px',
-        margin: '20px'
+        padding: 20,
+        margin: 20,
     },
     timestamp: {
         fontSize: 14,

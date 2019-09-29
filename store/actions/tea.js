@@ -2,6 +2,7 @@ import * as actionTypes from "./actionTypes";
 import {API, graphqlOperation} from "aws-amplify";
 import {getTea} from "../../graphql/queries";
 import * as mutations from "../../graphql/mutations";
+import {Alert} from "react-native";
 const uuidv4 = require('uuid/v4');
 
 export const fetchTeaStart = () => {
@@ -92,7 +93,7 @@ export const loadComment = (tea) => {
     }
 };
 
-export const loadInappropriateComment = (id) => {
+export const loadInappropriateComment = (comment, tea, author) => {
     return (dispatch) => {
         dispatch(loadComment({
             ...tea,
@@ -110,5 +111,11 @@ export const loadInappropriateComment = (id) => {
 
 
 export const reportInappropriateContent = (id) => {
-    console.log('reporting ' + id);
+    API.graphql(graphqlOperation(mutations.createFlaggedTea, {teaId: id})).finally(res => {
+        Alert.alert(
+            "We've received your report",
+            'Thank you for making Workplace Tea a better place.',
+            [{text: 'Dismiss', style: 'cancel'}]
+        );
+    });
 };

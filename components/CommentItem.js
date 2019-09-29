@@ -9,7 +9,7 @@ const CommentItem = (props) => {
         <View style={styles.container}>
             {getContent(props.content)}
             <DefaultText style={styles.footer}>
-                Posted by {props.author} on {getDate(props.createdAt)}
+                Posted by {props.author} on {getDate(props.createdAt, true)}
             </DefaultText>
         </View>
     );
