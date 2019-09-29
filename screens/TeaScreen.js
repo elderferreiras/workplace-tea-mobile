@@ -47,7 +47,7 @@ const TeaScreen = (props) => {
 
     const submitCommentHandler = (event) => {
         event.preventDefault();
-        if (comment.length) {
+        if (comment.length && comment.length <= 500) {
             setSubmittingComment(true);
             if (isCommentValid(comment)) {
                 cancel();
@@ -110,59 +110,58 @@ const TeaScreen = (props) => {
 
     if (props.tea && !props.loading) {
         tea = (
-            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                <View style={styles.screen}>
-                    <View style={styles.teaContainer}>
-                        <Text style={styles.timestamp}>
-                            Posted on {getDate(props.tea.createdAt)}
-                        </Text>
+            <View style={styles.screen}>
+                <View style={styles.teaContainer}>
+                    <Text style={styles.timestamp}>
+                        Posted on {getDate(props.tea.createdAt)}
+                    </Text>
 
-                        <Text style={styles.tea}>
-                            {props.tea.content}
-                        </Text>
+                    <Text style={styles.tea}>
+                        {props.tea.content}
+                    </Text>
 
-                        <View style={styles.controlsContainer}>
-                            <View style={styles.buttonContainer}>
-                                <AntDesign
-                                    name='like2'
-                                    color={Colors.grey}
-                                    style={styles.button}
-                                    size={18}
-                                    iconStyle={styles.iconStyle}>
-                                    <Text> {props.tea.up}</Text>
-                                </AntDesign>
+                    <View style={styles.controlsContainer}>
+                        <View style={styles.buttonContainer}>
+                            <AntDesign
+                                name='like2'
+                                color={Colors.grey}
+                                style={styles.button}
+                                size={18}
+                                iconStyle={styles.iconStyle}>
+                                <Text> {props.tea.up}</Text>
+                            </AntDesign>
 
-                                <AntDesign
-                                    name='dislike2'
-                                    color={Colors.grey}
-                                    style={styles.button}
-                                    size={18}
-                                    iconStyle={styles.iconStyle}>
-                                    <Text> {props.tea.down}</Text>
-                                </AntDesign>
-                            </View>
+                            <AntDesign
+                                name='dislike2'
+                                color={Colors.grey}
+                                style={styles.button}
+                                size={18}
+                                iconStyle={styles.iconStyle}>
+                                <Text> {props.tea.down}</Text>
+                            </AntDesign>
+                        </View>
 
-                            <View style={styles.commentsIcon}>
-                                <FontAwesome name="comment-o" size={18} color={Colors.grey}>
-                                    <Text style={styles.commentText}> {props.tea.comments.items.length}</Text>
-                                </FontAwesome>
-                            </View>
+                        <View style={styles.commentsIcon}>
+                            <FontAwesome name="comment-o" size={18} color={Colors.grey}>
+                                <Text style={styles.commentText}> {props.tea.comments.items.length}</Text>
+                            </FontAwesome>
                         </View>
                     </View>
-
-                    <ScrollView style={styles.commentsContainer}>
-                        <Comments comments={props.tea.comments.items} submitting={submittingComment}/>
-                    </ScrollView>
-
-                    <FloatingButton open={open} icon="comment-plus-outline"/>
-
-                    <NewCommentScreen visible={openModal}
-                                      submit={submitCommentHandler}
-                                      change={commentChangeHandler}
-                                      comment={comment}
-                                      cancel={cancel}/>
                 </View>
-            </TouchableWithoutFeedback>
+
+                <ScrollView style={styles.commentsContainer}>
+                    <View style={styles.commentsWrapper}>
+                        <Comments comments={props.tea.comments.items} submitting={submittingComment}/>
+                    </View>
+                </ScrollView>
+                <FloatingButton open={open} icon="comment-plus-outline"/>
+
+                <NewCommentScreen visible={openModal}
+                                  submit={submitCommentHandler}
+                                  change={commentChangeHandler}
+                                  comment={comment}
+                                  cancel={cancel}/>
+            </View>
         );
     }
 
@@ -190,9 +189,11 @@ TeaScreen.navigationOptions = (data) => {
                                     text: 'Cancel',
                                     style: 'cancel'
                                 },
-                                {text: 'Yes', onPress: () => {
-                                    reportInappropriateContent(data.navigation.getParam('id'));
-                                }},
+                                {
+                                    text: 'Yes', onPress: () => {
+                                        reportInappropriateContent(data.navigation.getParam('id'));
+                                    }
+                                },
                             ],
                             {cancelable: false},
                         );
@@ -224,6 +225,9 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         borderTopColor: Colors.grey,
         borderTopWidth: 1
+    },
+    commentsWrapper: {
+        marginBottom: 20
     },
     controlsContainer: {
         flexDirection: 'row',
