@@ -119,7 +119,5 @@ export const reportInappropriateContent = (id) => {
             'Thank you for making Workplace Tea a better place.',
             [{text: 'Dismiss', style: 'cancel'}]
         );
-    }).catch(err => {
-        console.log(err);
     });
 };
