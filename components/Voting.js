@@ -36,7 +36,6 @@ const Voting = (props) => {
                 name={likeIcon}
                 color={colorUp}
                 style={styles.button}
-                iconStyle={styles.iconStyle}
                 backgroundColor={Colors.white}
                 onPress={() => props.countUpVote(props.id, props.up, props.down)}>
                 <Text>{props.up}</Text>
@@ -46,7 +45,6 @@ const Voting = (props) => {
                 name={dislikeIcon}
                 color={colorDown}
                 style={styles.button}
-                iconStyle={styles.iconStyle}
                 backgroundColor={Colors.white}
                 onPress={() => props.countDownVote(props.id, props.up, props.down)}>
                 <Text>{props.down}</Text>
@@ -63,11 +61,7 @@ const styles = StyleSheet.create({
     },
     button: {
         paddingVertical: 2,
-        paddingHorizontal: 5,
-        marginRight: 5
-    },
-    iconStyle: {
-        marginRight: 5
+        paddingHorizontal: 5
     }
 });
 

@@ -23,6 +23,7 @@ import NewCommentScreen from "./NewCommentScreen";
 import {validate} from "../utility/utility";
 import randomGenerator from 'random-username-generator';
 import axios from 'axios';
+import {reportInappropriateContent} from "../store/actions";
 
 const TeaScreen = (props) => {
     const id = props.navigation.getParam('id');
@@ -107,7 +108,7 @@ const TeaScreen = (props) => {
 
     let tea = <ActivityIndicator size="large" color={Colors.primary}/>;
 
-    if (props.tea) {
+    if (props.tea && !props.loading) {
         tea = (
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <View style={styles.screen}>
@@ -168,23 +169,38 @@ const TeaScreen = (props) => {
     return tea;
 };
 
-TeaScreen.navigationOptions = {
-    headerTitleStyle: {
-        fontFamily: Fonts.bold,
-        color: Colors.secondary
-    },
-    headerTintColor: Colors.secondary,
-    headerRight: (
-        <HeaderButtons HeaderButtonComponent={HeaderButton}>
-            <Item
-                title="Flag content"
-                iconName="flag"
-                onPress={() => {
-                    console.log('Mark as favorite!');
-                }}
-            />
-        </HeaderButtons>
-    )
+TeaScreen.navigationOptions = (data) => {
+    return {
+        headerTitleStyle: {
+            fontFamily: Fonts.semiBold,
+            color: Colors.secondary
+        },
+        headerTintColor: Colors.secondary,
+        headerRight: (
+            <HeaderButtons HeaderButtonComponent={HeaderButton}>
+                <Item
+                    title="Flag content"
+                    iconName="flag"
+                    onPress={() => {
+                        Alert.alert(
+                            'Report Inappropriate Content',
+                            'We rely on Workplace Tea community members to report content that they find inappropriate. Are you sure you want to report this content?',
+                            [
+                                {
+                                    text: 'Cancel',
+                                    style: 'cancel'
+                                },
+                                {text: 'Yes', onPress: () => {
+                                    reportInappropriateContent(data.navigation.getParam('id'));
+                                }},
+                            ],
+                            {cancelable: false},
+                        );
+                    }}
+                />
+            </HeaderButtons>
+        )
+    }
 };
 
 const styles = StyleSheet.create({
@@ -219,7 +235,7 @@ const styles = StyleSheet.create({
     },
     tea: {
         fontSize: 20,
-        fontFamily: Fonts.normal
+        fontFamily: Fonts.bold
     },
     commentText: {
         padding: '20px',

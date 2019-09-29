@@ -4,12 +4,8 @@ import {createStore, applyMiddleware, combineReducers} from 'redux';
 import thunk from 'redux-thunk';
 import teasReducer from './store/reducers/teas';
 import teaReducer from './store/reducers/tea';
-import TeaFeedScreen from "./screens/TeaFeedScreen";
 import Amplify from 'aws-amplify';
 import amplify from './aws-exports';
-import Header from "./components/Header";
-import FloatingButton from "./components/FloatingButton";
-import NewTeaScreen from "./screens/NewTeaScreen";
 import * as Font from 'expo-font';
 import { AppLoading } from "expo";
 import Navigator from "./navigation/navigator";
@@ -30,6 +26,7 @@ const fetchFonts = () => {
     return Font.loadAsync({
         'open-sans': require('./assets/fonts/OpenSans-Regular.ttf'),
         'open-sans-bold': require('./assets/fonts/OpenSans-Bold.ttf'),
+        'open-sans-semi-bold': require('./assets/fonts/OpenSans-SemiBold.ttf'),
     })
 };
 

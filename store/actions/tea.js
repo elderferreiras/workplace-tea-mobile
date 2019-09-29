@@ -92,7 +92,7 @@ export const loadComment = (tea) => {
     }
 };
 
-export const loadInappropriateComment = (comment, tea, author) => {
+export const loadInappropriateComment = (id) => {
     return (dispatch) => {
         dispatch(loadComment({
             ...tea,
@@ -106,4 +106,9 @@ export const loadInappropriateComment = (comment, tea, author) => {
             }
         }));
     }
+};
+
+
+export const reportInappropriateContent = (id) => {
+    console.log('reporting ' + id);
 };

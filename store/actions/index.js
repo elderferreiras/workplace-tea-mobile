@@ -14,7 +14,8 @@ export {
 export {
     fetchTea,
     createComment,
-    loadInappropriateComment
+    loadInappropriateComment,
+    reportInappropriateContent
 } from './tea';
 
 export {
