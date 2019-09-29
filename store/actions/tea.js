@@ -111,11 +111,15 @@ export const loadInappropriateComment = (comment, tea, author) => {
 
 
 export const reportInappropriateContent = (id) => {
-    API.graphql(graphqlOperation(mutations.createFlaggedTea, {teaId: id})).finally(res => {
+    const data = {id: uuidv4(),teaId: id};
+
+    API.graphql(graphqlOperation(mutations.createFlaggedTea, {input: data})).finally(res => {
         Alert.alert(
             "We've received your report",
             'Thank you for making Workplace Tea a better place.',
             [{text: 'Dismiss', style: 'cancel'}]
         );
+    }).catch(err => {
+        console.log(err);
     });
 };
