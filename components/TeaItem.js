@@ -1,5 +1,5 @@
 import React, {Fragment} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View,  TouchableOpacity, TouchableNativeFeedback, Platform} from 'react-native';
 import Colors from "../constants/Colors";
 import Fonts from "../constants/Fonts";
 import Voting from "./Voting";
@@ -7,6 +7,12 @@ import {FontAwesome} from "@expo/vector-icons";
 import {getDate} from "../helpers/utils";
 
 const TeaItem = (props) => {
+    let TouchableComponent = TouchableOpacity;
+
+    if (Platform.OS === 'android' && Platform.Version >= 21) {
+        TouchableComponent = TouchableNativeFeedback;
+    }
+
     let comments = null;
     let timestamp = null;
     let footer = null;
@@ -54,16 +60,18 @@ const TeaItem = (props) => {
     }
 
     return (
-        <View style={containerStyle}>
-            {timestamp}
-            <Text style={teaStyle}>
-                {props.content}
-            </Text>
-            <View style={styles.controlsContainer}>
-                {comments}
+        <TouchableComponent onPress={() => selectTeaHandler(props.id)} useForeground>
+            <View style={containerStyle}>
+                {timestamp}
+                <Text style={teaStyle}>
+                    {props.content}
+                </Text>
+                <View style={styles.controlsContainer}>
+                    {comments}
+                </View>
+                {footer}
             </View>
-            {footer}
-        </View>
+        </TouchableComponent>
     );
 };
 
