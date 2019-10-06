@@ -244,3 +244,132 @@ export const onDeleteBlockedIPs = `subscription OnDeleteBlockedIPs {
   }
 }
 `;
+export const onCreateFlaggedTea = `subscription OnCreateFlaggedTea {
+  onCreateFlaggedTea {
+    id
+    teaId
+  }
+}
+`;
+export const onUpdateFlaggedTea = `subscription OnUpdateFlaggedTea {
+  onUpdateFlaggedTea {
+    id
+    teaId
+  }
+}
+`;
+export const onDeleteFlaggedTea = `subscription OnDeleteFlaggedTea {
+  onDeleteFlaggedTea {
+    id
+    teaId
+  }
+}
+`;
+export const onCreateFlaggedComment = `subscription OnCreateFlaggedComment {
+  onCreateFlaggedComment {
+    id
+    comment
+    commentId
+  }
+}
+`;
+export const onUpdateFlaggedComment = `subscription OnUpdateFlaggedComment {
+  onUpdateFlaggedComment {
+    id
+    comment
+    commentId
+  }
+}
+`;
+export const onDeleteFlaggedComment = `subscription OnDeleteFlaggedComment {
+  onDeleteFlaggedComment {
+    id
+    comment
+    commentId
+  }
+}
+`;
+export const onCreateAgreedToEula = `subscription OnCreateAgreedToEula {
+  onCreateAgreedToEULA {
+    id
+    identifier
+    ip
+    agreed
+  }
+}
+`;
+export const onUpdateAgreedToEula = `subscription OnUpdateAgreedToEula {
+  onUpdateAgreedToEULA {
+    id
+    identifier
+    ip
+    agreed
+  }
+}
+`;
+export const onDeleteAgreedToEula = `subscription OnDeleteAgreedToEula {
+  onDeleteAgreedToEULA {
+    id
+    identifier
+    ip
+    agreed
+  }
+}
+`;
+export const onCreateBlockedUsers = `subscription OnCreateBlockedUsers {
+  onCreateBlockedUsers {
+    id
+    identifier
+    ip
+    blockedIdentifier
+    blockedIP
+  }
+}
+`;
+export const onUpdateBlockedUsers = `subscription OnUpdateBlockedUsers {
+  onUpdateBlockedUsers {
+    id
+    identifier
+    ip
+    blockedIdentifier
+    blockedIP
+  }
+}
+`;
+export const onDeleteBlockedUsers = `subscription OnDeleteBlockedUsers {
+  onDeleteBlockedUsers {
+    id
+    identifier
+    ip
+    blockedIdentifier
+    blockedIP
+  }
+}
+`;
+export const onCreateBlockedContent = `subscription OnCreateBlockedContent {
+  onCreateBlockedContent {
+    id
+    identifier
+    commentId
+    teaId
+  }
+}
+`;
+export const onUpdateBlockedContent = `subscription OnUpdateBlockedContent {
+  onUpdateBlockedContent {
+    id
+    identifier
+    commentId
+    teaId
+  }
+}
+`;
+export const onDeleteBlockedContent = `subscription OnDeleteBlockedContent {
+  onDeleteBlockedContent {
+    id
+    identifier
+    commentId
+    teaId
+  }
+}
+`;
