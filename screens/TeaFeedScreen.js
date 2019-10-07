@@ -3,8 +3,7 @@ import {
     StyleSheet,
     View,
     FlatList,
-    Linking,
-    Platform, Alert
+    Platform
 } from 'react-native';
 import * as actions from '../store/actions';
 import {connect} from 'react-redux';
@@ -17,7 +16,7 @@ import FloatingButton from "../components/FloatingButton";
 import NewTeaScreen from "./NewTeaScreen";
 import {HeaderButtons, Item} from "react-navigation-header-buttons";
 import HeaderButton from '../components/HeaderButton';
-import {reportInappropriateContent} from "../store/actions";
+import Constants from 'expo-constants';
 
 const TeaFeedScreen = (props) => {
     const [openModal, setOpenModal] = useState(false);
@@ -32,11 +31,21 @@ const TeaFeedScreen = (props) => {
 
     useEffect(() => {
         props.isIPBlocked();
-
         if (!props.hasEverything && !props.next) {
             props.fetchTeas();
         }
     }, []);
+
+    useEffect(() => {
+        if(!props.checkedEULA) {
+            props.checkEULA(Constants.deviceId);
+        }
+
+        if(!props.agreed) {
+            props.navigation.navigate('EULA');
+        }
+    }, [props.checkedEULA, props.agreed]);
+
 
     let teas = <Loading/>;
 
@@ -99,42 +108,28 @@ const TeaFeedScreen = (props) => {
     );
 };
 
-TeaFeedScreen.navigationOptions = {
-    headerTitle: 'Workplace Tea',
-    headerTitleStyle: {
-        fontFamily: Fonts.bold,
-        color: Platform.OS === 'android'? Colors.white : Colors.primary,
-        alignSelf: 'center',
-        textAlign: "center",
-        justifyContent: 'center'
-    },
-    headerTintColor: Platform.OS === 'android'? Colors.white : Colors.primary,
-    headerRight: (
-        <HeaderButtons HeaderButtonComponent={HeaderButton}>
-            <Item
-                title="Information"
-                iconName="information-variant"
-                onPress={() => {
-                    Alert.alert(
-                        'Privacy Policy',
-                        'You\'re about to be taken to the Privacy Policy page.',
-                        [
-                            {
-                                text: 'Cancel',
-                                style: 'cancel'
-                            },
-                            {
-                                text: 'Proceed', onPress: () => {
-                                    Linking.openURL('https://www.workplacetea.com/privacy-policy');
-                                }
-                            },
-                        ],
-                        {cancelable: false},
-                    );
-                }}
-            />
-        </HeaderButtons>
-    )
+TeaFeedScreen.navigationOptions = data => {
+    return {
+        headerTitle: 'Workplace Tea',
+        headerTitleStyle: {
+            fontFamily: Fonts.bold,
+            color: Platform.OS === 'android' ? Colors.white : Colors.primary,
+            alignSelf: 'center',
+            textAlign: "center",
+            justifyContent: 'center'
+        },
+        headerTintColor: Platform.OS === 'android' ? Colors.white : Colors.primary,
+        headerLeft: (
+            <HeaderButtons HeaderButtonComponent={HeaderButton}>
+                <Item title='Cart'
+                      iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}
+                      onPress={() => {
+                          data.navigation.toggleDrawer();
+                      }}
+                />
+            </HeaderButtons>
+        )
+    }
 };
 
 const mapStateToProps = state => {
@@ -146,7 +141,10 @@ const mapStateToProps = state => {
         loading: state.teasReducer.loading,
         hasEverything: state.teasReducer.hasEverything,
         blocked: state.teasReducer.blocked,
-        refreshing: state.teasReducer.refreshing
+        refreshing: state.teasReducer.refreshing,
+        agreed: state.user.agreed,
+        checkingEULA: state.user.checking,
+        checkedEULA: state.user.checked
     }
 };
 
@@ -156,7 +154,8 @@ const mapDispatchToProps = dispatch => {
         saveTea: (content, ip) => dispatch(actions.submitTea(content, ip)),
         isIPBlocked: () => dispatch(actions.isIPBlocked()),
         blockIP: (ip) => dispatch(actions.blockIP(ip)),
-        loadInappropriateTea: (content) => dispatch(actions.loadInappropriateTea(content))
+        loadInappropriateTea: (content) => dispatch(actions.loadInappropriateTea(content)),
+        checkEULA: (identifier) => dispatch(actions.checkUserEULA(identifier))
     }
 };
 

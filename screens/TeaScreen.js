@@ -173,33 +173,7 @@ TeaScreen.navigationOptions = (data) => {
             fontFamily: Fonts.semiBold,
             color: Platform.OS === 'android'? Colors.white : Colors.primary
         },
-        headerTintColor: Platform.OS === 'android'? Colors.white : Colors.primary,
-        headerRight: (
-            <HeaderButtons HeaderButtonComponent={HeaderButton}>
-                <Item
-                    title="Flag content"
-                    iconName="flag"
-                    onPress={() => {
-                        Alert.alert(
-                            'Report Inappropriate Content',
-                            'We rely on Workplace Tea community members to report content that they find inappropriate. Are you sure you want to report this content?',
-                            [
-                                {
-                                    text: 'Cancel',
-                                    style: 'cancel'
-                                },
-                                {
-                                    text: 'Yes', onPress: () => {
-                                        reportInappropriateContent(data.navigation.getParam('id'));
-                                    }
-                                },
-                            ],
-                            {cancelable: false},
-                        );
-                    }}
-                />
-            </HeaderButtons>
-        )
+        headerTintColor: Platform.OS === 'android'? Colors.white : Colors.primary
     }
 };
 

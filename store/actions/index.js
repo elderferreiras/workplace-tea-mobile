@@ -22,3 +22,8 @@ export {
     UP,
     DOWN
 } from './voting';
+
+export {
+    checkUserEULA,
+    persistEULA
+} from './user';

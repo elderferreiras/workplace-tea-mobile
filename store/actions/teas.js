@@ -5,7 +5,6 @@ import {getBlockedIPs, getWorkplace} from "../../graphql/queries";
 import * as mutations from "../../graphql/mutations";
 import axios from "axios";
 import * as voting from './voting';
-import {postTweet} from "../../services/twitter";
 
 const uuidv4 = require('uuid/v4');
 import {AsyncStorage} from 'react-native';

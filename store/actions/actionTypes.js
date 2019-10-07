@@ -22,3 +22,7 @@ export const LOAD_FAKE_TEA = 'LOAD_FAKE_TEA';
 export const LOAD_FAKE_COMMENT = 'LOAD_FAKE_COMMENT';
 
 export const UPDATE_VOTE = 'UPDATE_VOTE';
+
+export const CHECKING_EULA = 'CHECKING_EULA';
+export const SAVE_EULA = 'SAVE_EULA';
+export const SET_EULA = 'SET_EULA';

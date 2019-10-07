@@ -1,10 +1,11 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
     Modal,
     TouchableWithoutFeedback,
     Keyboard,
     View, Alert
 } from "react-native";
+import Constants from 'expo-constants';
 import TeaInput from "../components/TeaInput";
 import axios from "axios";
 import {validate} from "../utility/utility";
@@ -19,6 +20,10 @@ const NewTeaScreen = (props) => {
             valid: false
         }
     );
+
+    useEffect(() => {
+        console.log();
+    }, []);
 
     const teaSubmitHandler = () => {
         if (tea.content.length) {

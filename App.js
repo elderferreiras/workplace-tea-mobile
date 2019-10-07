@@ -4,6 +4,7 @@ import {createStore, applyMiddleware, combineReducers} from 'redux';
 import thunk from 'redux-thunk';
 import teasReducer from './store/reducers/teas';
 import teaReducer from './store/reducers/tea';
+import userReducer from './store/reducers/users';
 import Amplify from 'aws-amplify';
 import amplify from './aws-exports';
 import * as Font from 'expo-font';
@@ -14,7 +15,8 @@ Amplify.configure(amplify);
 
 const rootReducer = combineReducers({
     teasReducer: teasReducer,
-    teaReducer: teaReducer
+    teaReducer: teaReducer,
+    user: userReducer
 });
 
 const store = createStore(
