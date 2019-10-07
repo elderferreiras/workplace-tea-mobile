@@ -1,14 +1,21 @@
-import React from 'react';
-import {ScrollView, View, Alert, Button, StyleSheet} from 'react-native';
+import React, {useEffect} from 'react';
+import {ScrollView, View, Alert, Button, StyleSheet, Platform} from 'react-native';
 import EULAText from "../components/EULAText";
 import Fonts from "../constants/Fonts";
-import { useDispatch } from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {persistEULA} from "../store/actions";
 import Constants from 'expo-constants';
-import {getWorkplaceId} from "../helpers/utils";
-
+import Colors from "../constants/Colors";
+import {HeaderButtons, Item} from "react-navigation-header-buttons";
+import HeaderButton from "../components/HeaderButton";
 const EULAScreen = (props) => {
     const dispatch = useDispatch();
+    const agreed = useSelector(state => state.user.agreed);
+    const checked = useSelector(state => state.user.checked);
+
+    useEffect(() => {
+        props.navigation.setParams({agreed: agreed, checked: checked});
+    }, [agreed, checked]);
 
     return (
         <ScrollView>
@@ -145,7 +152,7 @@ const EULAScreen = (props) => {
                     agree to stop all access and use of the Software. The provisions that by their nature continue and
                     survive will survive any termination of this EULA agreement.</EULAText>
 
-                <View style={styles.controls}>
+                {!agreed && <View style={styles.controls}>
                     <Button style={styles.btn} onPress={() => {
                         Alert.alert(
                             'Wait a second...',
@@ -155,20 +162,51 @@ const EULAScreen = (props) => {
                             ],
                             {cancelable: false}
                         );
-                        }
+                    }
                     } title="Disagree"/>
                     <Button style={styles.btn} onPress={() => {
                         dispatch(persistEULA(Constants.deviceId));
                         props.navigation.navigate('Home');
                     }} title="Agree"/>
-                </View>
+                </View> }
             </View>
         </ScrollView>
     );
 };
 
-EULAScreen.navigationOptions = {
-    headerTitle: 'User License Agreement'
+EULAScreen.navigationOptions = data => {
+    const checked = data.navigation.getParam('checked');
+    const agreed = data.navigation.getParam('agreed');
+
+    const config = {
+        headerTitle: 'User License Agreement',
+        headerTitleStyle: {
+            fontFamily: Fonts.bold,
+            color: Platform.OS === 'android' ? Colors.white : Colors.primary,
+            alignSelf: 'center',
+            textAlign: "center",
+            justifyContent: 'center'
+        },
+        headerTintColor: Platform.OS === 'android' ? Colors.white : Colors.primary
+    };
+
+    if(checked && agreed) {
+        return {
+            ...config,
+            headerLeft: (
+                <HeaderButtons HeaderButtonComponent={HeaderButton}>
+                    <Item title='Back'
+                          iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}
+                          onPress={() => {
+                              data.navigation.toggleDrawer();
+                          }}
+                    />
+                </HeaderButtons>
+            )
+        };
+    } else {
+        return config;
+    }
 };
 const styles = StyleSheet.create({
     screen: {

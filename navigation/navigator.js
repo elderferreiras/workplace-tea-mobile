@@ -26,17 +26,25 @@ const TeaNavigator = createStackNavigator({
                              color={drawerConfig.tintColor}/>;
         }
     },
-    defaultNavigationOptions: stackConfig
+    defaultNavigationOptions: stackConfig,
+    headerLayoutPreset: 'center'
 });
 
 const EULANavigator = createStackNavigator(
     {
-        EULA: {
-            screen: EULAScreen,
-        },
+        EULA: EULAScreen,
     },
     {
-        mode: 'modal'
+        navigationOptions: {
+            drawerIcon: drawerConfig => {
+                return <Ionicons name={Platform.OS === 'android' ? 'md-book' : 'ios-book'} size={23}
+                                 color={drawerConfig.tintColor}/>;
+            },
+            drawerLabel: 'User License Agreement'
+        },
+        defaultNavigationOptions: stackConfig,
+        mode: 'modal',
+        headerLayoutPreset: 'center'
     }
 );
 
